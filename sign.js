@@ -17,6 +17,7 @@ jQuery(document).ready(function(e) {
         jQuery.fn.sign = function(options) {
             var params = jQuery.fn.extend({
                 reset: options.resetButton ? options.resetButton : null,
+                input: options.destInput ? options.destInput : null,
                 width: options.width ? options.width : 500,
                 height: options.height ? options.height : 300,
                 lineWidth: options.lineWidth ? options.lineWidth : 10,
@@ -112,6 +113,9 @@ jQuery(document).ready(function(e) {
                 holdClick = false;
                 points[points.length - 1].break = true;
 
+                if (params.input != null) {
+                  params.input.val(JSON.stringify(points));
+                }
                 return false;
             });
 

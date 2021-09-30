@@ -8,7 +8,8 @@
         $(document).ready(function()
         {
             $('#myCanvas').sign({
-                resetButton: $('#resetSign'), 
+                resetButton: $('#resetSign'),
+                destInput: $('#points'),
                 lineWidth: 5 
             });
         });
@@ -23,5 +24,7 @@
 <body>
     <canvas id="myCanvas"></canvas>
     <input type="button" value="Reset" id='resetSign'>
+    <br/>
+    <input type="text" value="" id="points"/>
 </body>
 </html>
