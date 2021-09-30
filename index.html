@@ -24,7 +24,10 @@
 <body>
     <canvas id="myCanvas"></canvas>
     <input type="button" value="Reset" id='resetSign'>
+    <input type="button" value="Get bitmap" onclick="$('#bitmapView').attr('src', $('#myCanvas').get(0).toDataURL('image/png'))"/>
     <br/>
     <input type="text" value="" id="points"/>
+    <br/>
+    <img id="bitmapView"/>
 </body>
 </html>
