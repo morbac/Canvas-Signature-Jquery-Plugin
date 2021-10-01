@@ -49,8 +49,8 @@ jQuery(document).ready(function(e) {
       let totalOffsetY = 0;
 
       do {
-        totalOffsetX += canvas.offsetLeft - canvas.scrollLeft;
-        totalOffsetY += canvas.offsetTop - canvas.scrollTop;
+        totalOffsetX += canvas.offsetLeft;
+        totalOffsetY += canvas.offsetTop;
       } while (canvas = canvas.offsetParent);
 
       let touch = null;
