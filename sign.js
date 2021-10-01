@@ -7,6 +7,8 @@
  * Copyright (c) 2018 Lucas Gabriel Martinez
  *
  * Version: 1.0.0 - 2018/07/24
+ * Edit: Nicolas Crittin - 2021/10/01
+ *
  * Requires: jQuery v1.3+
  *
  * Dual licensed under the MIT and GPL licenses:
@@ -15,6 +17,7 @@
  */
 jQuery(document).ready(function(e) {
         jQuery.fn.sign = function(options) {
+            if (!options) options = {};
             var params = jQuery.fn.extend({
                 reset: options.resetButton ? options.resetButton : null,
                 input: options.destInput ? options.destInput : null,
