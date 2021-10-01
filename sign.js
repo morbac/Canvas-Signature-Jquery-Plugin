@@ -21,22 +21,23 @@ jQuery(document).ready(function(e) {
             var params = jQuery.fn.extend({
                 reset: options.resetButton ? options.resetButton : null,
                 input: options.destInput ? options.destInput : null,
+                image: options.destImage ? options.destImage : null,
                 width: options.width ? options.width : 500,
                 height: options.height ? options.height : 300,
                 lineWidth: options.lineWidth ? options.lineWidth : 10,
             }, options);
 
             var canvas = jQuery(this);
-            
+
             var lineWidth = params.lineWidth;
-            
+
             var context = canvas.get(0).getContext('2d');
             context.lineJoin = context.lineCap = 'round';
 
-            var fixFingerPosition = 15;            
+            var fixFingerPosition = 15;
 
             canvas.attr("width",params.width);
-            canvas.attr("height", params.height); 
+            canvas.attr("height", params.height);
 
             var points = [];
             var last = {x:null,y:null};
@@ -79,19 +80,19 @@ jQuery(document).ready(function(e) {
                 var p2 = points[1];
 
                 ctx.beginPath();
-                ctx.moveTo(p1.x, p1.y);  
-  
+                ctx.moveTo(p1.x, p1.y);
+
                 for (var i = 1; i < points.length; i++) {
                     var midPoint = calculateMiddlePoint(p1, p2);
                     if (p1.break) {
-                        ctx.moveTo(p2.x, p2.y); 
+                        ctx.moveTo(p2.x, p2.y);
                     } else {
                         ctx.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
                     }
                     p1 = points[i];
                     p2 = points[i+1];
                 }
-                
+
                 ctx.lineWidth = lineWidth;
                 ctx.lineTo(p1.x, p1.y);
                 ctx.stroke();
@@ -108,13 +109,13 @@ jQuery(document).ready(function(e) {
             // Mouse & touch events
             canvas.on('touchstart mousedown', function(e) {
                 holdClick = true;
-                var mousePosition = getMousePosition(canvas, e);                    
+                var mousePosition = getMousePosition(canvas, e);
                 points.push({x: mousePosition.x, y: mousePosition.y, break: false});
                 return false;
             }).on('touchmove mousemove', function(e)
             {
                 if (holdClick) {
-                    var mousePosition = getMousePosition(canvas, e);                    
+                    var mousePosition = getMousePosition(canvas, e);
                     draw(context, mousePosition.x, mousePosition.y);
                 }
                 return false;
@@ -123,8 +124,11 @@ jQuery(document).ready(function(e) {
                 holdClick = false;
                 points[points.length - 1].break = true;
 
-                if (params.input != null) {
-                  params.input.val(JSON.stringify(points));
+                if (params.input != null && params.input.length > 0) {
+                    params.input.val(JSON.stringify(points));
+                }
+                if (params.image != null && params.image.length > 0) {
+                    params.image.attr('src', $(this).get(0).toDataURL('image/png')).show();
                 }
                 return false;
             });
