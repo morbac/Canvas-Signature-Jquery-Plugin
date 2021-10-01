@@ -42,25 +42,32 @@ jQuery(document).ready(function(e) {
             var last = {x:null,y:null};
             var holdClick = false;
 
-            var touch = function(e)
-            {
-                var touch = null;
-                if (e.type !== 'click' && e.type !== 'mousedown' && e.type !== 'mousemove') {
-                    touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+            function touch(canvas, evt){
+                let totalOffsetX = 0;
+                let totalOffsetY = 0;
+
+                do {
+                    totalOffsetX += canvas.offsetLeft - canvas.scrollLeft;
+                    totalOffsetY += canvas.offsetTop - canvas.scrollTop;
+                } while (canvas = canvas.offsetParent);
+
+                let touch = null;
+                if (evt.type !== 'click' && evt.type !== 'mousedown' && evt.type !== 'mousemove') {
+                    touch = evt.originalEvent.touches[0] || evt.originalEvent.changedTouches[0];
                 } else {
-                    touch = e;
+                    touch = evt;
                 }
 
-                return ({x: touch.pageX, y: touch.pageY});
+                return { x: Math.floor(touch.pageX - totalOffsetX),
+                         y: Math.floor(touch.pageY - totalOffsetY) }
             }
 
             var getMousePosition = function(canvas, evt)
             {
-                var rect = canvas.get(0).getBoundingClientRect();
-                var pos = touch(evt);
+                var pos = touch(canvas.get(0), evt);
                 return {
-                    x: pos.x + rect.left - fixFingerPosition,
-                    y: pos.y - rect.top - fixFingerPosition
+                    x: pos.x - fixFingerPosition,
+                    y: pos.y - fixFingerPosition
                 };
             }
 
