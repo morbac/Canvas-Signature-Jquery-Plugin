@@ -99,8 +99,7 @@ jQuery(document).ready(function(e) {
     }
 
     var svg = function(ctx, x, y) {
-      var svg = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>';
-          svg += '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+params.width+' '+params.height+'">';
+      var svg = '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+params.width+' '+params.height+'">';
           svg += '<path style="fill:none;stroke:#000000;stroke-width:'+params.lineWidth+'px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="';
 
       var p1 = points[0];
