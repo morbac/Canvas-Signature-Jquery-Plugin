@@ -11,6 +11,7 @@
                 resetButton: $('#resetSign'),
                 destInput: $('#points'),
                 destImage: $('#bitmapView'),
+                outFormat: 'svg',
                 lineWidth: 5 
             });
         });
@@ -27,7 +28,7 @@
     <input type="button" value="Reset" id='resetSign'>
     <input type="button" value="Get bitmap" onclick="$('#bitmapView').attr('src', $('#myCanvas').get(0).toDataURL('image/png'))"/>
     <br/>
-    <input type="text" value="" id="points"/>
+    <textarea id="points"/>
     <br/>
     <img id="bitmapView"/>
 </body>

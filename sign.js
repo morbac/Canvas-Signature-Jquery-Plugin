@@ -21,6 +21,7 @@ jQuery(document).ready(function(e) {
     var params = jQuery.fn.extend({
         reset: options.resetButton ? options.resetButton : null,
         input: options.destInput ? options.destInput : null,
+        format: options.destFormat ? options.destFormat : 'json',  // svg or json
         image: options.destImage ? options.destImage : null,
         width: options.width ? options.width : 500,
         height: options.height ? options.height : 300,
@@ -97,6 +98,34 @@ jQuery(document).ready(function(e) {
       ctx.stroke();
     }
 
+    var svg = function(ctx, x, y) {
+      var svg = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>';
+          svg += '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+params.width+' '+params.height+'">';
+          svg += '<path style="fill:none;stroke:#000000;stroke-width:'+params.lineWidth+'px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" d="';
+
+      var p1 = points[0];
+      var p2 = points[1];
+      var path = "M " + p1.x + " " + p1.y;
+
+      for (var i = 1; i < points.length; i++) {
+        var midPoint = calculateMiddlePoint(p1, p2);
+        if (p1.break) {
+          path += " M " + p2.x + " " + p2.y;
+        } else {
+          path += " Q " + p1.x + " " + p1.y + " " + midPoint.x + " " + midPoint.y;
+        }
+        p1 = points[i];
+        p2 = points[i+1];
+      }
+
+      path += " L " + p1.x + " " + p1.y;
+
+      svg += $.trim(path);
+      svg += '"/></svg>';
+
+      return svg;
+    }
+
     var calculateMiddlePoint = function(pointStart, pointEnd) {
       return { x: pointStart.x + (pointEnd.x - pointStart.x) / 2 ,
                y: pointStart.y + (pointEnd.y - pointStart.y) / 2 }
@@ -120,7 +149,11 @@ jQuery(document).ready(function(e) {
       points[points.length - 1].break = true;
 
       if (params.input != null && params.input.length > 0) {
-        params.input.val(JSON.stringify(points));
+        if (params.format == 'svg') {
+          params.input.val(svg());
+        } else {
+          params.input.val(JSON.stringify(points));
+        }
       }
       if (params.image != null && params.image.length > 0) {
         params.image.attr('src', $(this).get(0).toDataURL('image/png')).show();
